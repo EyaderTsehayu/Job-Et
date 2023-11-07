@@ -11,7 +11,9 @@ import styles from "./popularjobs.style";
 import { COLORS, SIZES } from "../../../constants";
 import useFetch from "../../../hook/useFetch";
 import PopularJobCard from "../../common/cards/popular/PopularJobCard";
+
 const Popularjobs = () => {
+  const router = useRouter();
   // const isLoading = false;
   // const error = false;
   const { data, isLoading, error } = useFetch("search", {
@@ -20,6 +22,11 @@ const Popularjobs = () => {
   });
   const [selectedJob, setSelectedJob] = useState();
   console.log("data:", data);
+
+  const handleCardPress = (item) => {
+    router.push(`/job-details/${item.job_id}`);
+    setSelectedJob(item.job_id);
+  };
 
   return (
     <View style={styles.container}>
@@ -40,8 +47,8 @@ const Popularjobs = () => {
             renderItem={({ item }) => (
               <PopularJobCard
                 item={item}
-                // selectedJob={selectedJob}
-                // handleCardPress={handleCardPress}
+                selectedJob={selectedJob}
+                handleCardPress={handleCardPress}
               />
             )}
             KeyExtractor={(item) => item?.job_id}
